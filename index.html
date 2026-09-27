@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>City Bus Ticket</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  background:#fafafa;
+  color:#111;
+  padding-bottom:85px;
+}
+
+.header{
+  height:95px;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px 25px;
+  border-bottom:1px solid #eee;
+}
+
+.logo{
+  width:70px;
+  height:55px;
+  border-radius:50%;
+  background:#fff;
+  border:2px solid #777;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  font-weight:bold;
+  text-align:center;
+}
+
+.profile{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:#000;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+}
+
+.search{
+  margin:18px 16px 28px;
+  height:62px;
+  background:#e7e7e7;
+  border-radius:35px;
+  display:flex;
+  align-items:center;
+  padding:0 22px;
+  font-size:25px;
+}
+
+.search span{
+  margin-left:15px;
+}
+
+.main-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:28px;
+  padding:0 35px;
+}
+
+.big-card{
+  text-align:center;
+}
+
+.card{
+  height:115px;
+  background:#dff3ff;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:52px;
+  box-shadow:0 2px 7px #ccc;
+}
+
+.big-title{
+  font-size:28px;
+  margin-top:18px;
+}
+
+.small-buttons{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  padding:30px 22px 20px;
+}
+
+.small-item{
+  text-align:center;
+  font-size:16px;
+}
+
+.small-card{
+  height:90px;
+  background:#dff3ff;
+  border-radius:15px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:38px;
+  box-shadow:0 2px 6px #ddd;
+  margin-bottom:12px;
+}
+
+.near-title{
+  display:flex;
+  justify-content:space-between;
+  padding:5px 25px 15px;
+  font-size:27px;
+  font-weight:bold;
+}
+
+.show{
+  text-decoration:underline;
+  font-size:19px;
+  font-weight:normal;
+}
+
+.near-box{
+  margin:0 22px 25px;
+  background:#e7e7e7;
+  border-radius:15px;
+  padding:20px;
+}
+
+.fetch{
+  display:flex;
+  align-items:center;
+  font-size:21px;
+}
+
+.bus-icon{
+  width:42px;
+  height:42px;
+  background:#000;
+  color:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-right:15px;
+}
+
+.more{
+  text-align:center;
+  margin-top:20px;
+  font-size:19px;
+}
+
+.nearby{
+  margin:15px 20px;
+  background:white;
+  border:1px solid #eee;
+  border-radius:15px;
+  padding:14px;
+}
+
+.nearby h2{
+  font-size:27px;
+  margin-bottom:15px;
+}
+
+.map{
+  height:230px;
+  background:#c9e3ee;
+  border-radius:4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#4b879d;
+  font-size:25px;
+}
+
+.bottom{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:80px;
+  background:white;
+  border-top:1px solid #ddd;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+}
+
+.nav{
+  text-align:center;
+  font-size:17px;
+}
+
+.nav-icon{
+  font-size:30px;
+  margin-bottom:5px;
+}
+
+.active{
+  font-weight:bold;
+}
+
+@media(max-width:380px){
+  .big-title{
+    font-size:23px;
+  }
+
+  .small-buttons{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .small-item{
+    font-size:14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo">CITY<br>BUS</div>
+  <div class="profile">●</div>
+</header>
+
+<div class="search">
+  🔍
+  <span>कुठे जायचे आहे?</span>
+</div>
+
+<section class="main-buttons">
+
+  <div class="big-card">
+    <div class="card">🎫</div>
+    <div class="big-title">Bus Ticket</div>
+  </div>
+
+  <div class="big-card">
+    <div class="card">👤</div>
+    <div class="big-title">Daily Pass</div>
+  </div>
+
+</section>
+
+<section class="small-buttons">
+
+  <div class="small-item">
+    <div class="small-card">🎟️</div>
+    View<br>Ticket
+  </div>
+
+  <div class="small-item">
+    <div class="small-card">🎟️</div>
+    View<br>Pass
+  </div>
+
+  <div class="small-item">
+    <div class="small-card">↕️</div>
+    Route<br>Timetable
+  </div>
+
+  <div class="small-item">
+    <div class="small-card">🚇</div>
+    Metro<br>Ticket
+  </div>
+
+</section>
+
+<div class="near-title">
+  <span>Near Me</span>
+  <span class="show">Show all</span>
+</div>
+
+<div class="near-box">
+
+  <div class="fetch">
+    <div class="bus-icon">🚌</div>
+    <span>Fetching...</span>
+  </div>
+
+  <div class="more">
+    See More Buses
+  </div>
+
+</div>
+
+<section class="nearby">
+
+  <h2>Nearby</h2>
+
+  <div class="map">
+    🗺️ Nearby Bus Map
+  </div>
+
+</section>
+
+<nav class="bottom">
+
+  <div class="nav active">
+    <div class="nav-icon">⌂</div>
+    Home
+  </div>
+
+  <div class="nav">
+    <div class="nav-icon">⌖</div>
+    Buses
+  </div>
+
+  <div class="nav">
+    <div class="nav-icon">?</div>
+    Help
+  </div>
+
+</nav>
+
+</body>
+</html>
