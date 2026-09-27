@@ -1,1412 +1,185 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>City Bus Ticket</title>
-
-<!-- QR CODE LIBRARY -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 <style>
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
-
-body{
-  background:#fafafa;
-  color:#111;
-  padding-bottom:85px;
-}
-
-.header{
-  height:95px;
-  background:white;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:20px 25px;
-  border-bottom:1px solid #eee;
-}
-
-.logo{
-  width:70px;
-  height:55px;
-  border-radius:50%;
-  background:#fff;
-  border:2px solid #777;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:11px;
-  font-weight:bold;
-  text-align:center;
-}
-
-.profile{
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  background:#000;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:27px;
-}
-
-.search{
-  margin:18px 16px 28px;
-  height:62px;
-  background:#e7e7e7;
-  border-radius:35px;
-  display:flex;
-  align-items:center;
-  padding:0 22px;
-  font-size:25px;
-}
-
-.search span{
-  margin-left:15px;
-}
-
-.main-buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:28px;
-  padding:0 35px;
-}
-
-.big-card{
-  text-align:center;
-  cursor:pointer;
-}
-
-.card{
-  height:115px;
-  background:#dff3ff;
-  border-radius:16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:52px;
-  box-shadow:0 2px 7px #ccc;
-}
-
-.big-title{
-  font-size:28px;
-  margin-top:18px;
-}
-
-.small-buttons{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  padding:30px 22px 20px;
-}
-
-.small-item{
-  text-align:center;
-  font-size:16px;
-}
-
-.small-card{
-  height:90px;
-  background:#dff3ff;
-  border-radius:15px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:38px;
-  box-shadow:0 2px 6px #ddd;
-  margin-bottom:12px;
-}
-
-.near-title{
-  display:flex;
-  justify-content:space-between;
-  padding:5px 25px 15px;
-  font-size:27px;
-  font-weight:bold;
-}
-
-.show{
-  text-decoration:underline;
-  font-size:19px;
-  font-weight:normal;
-}
-
-.near-box{
-  margin:0 22px 25px;
-  background:#e7e7e7;
-  border-radius:15px;
-  padding:20px;
-}
-
-.fetch{
-  display:flex;
-  align-items:center;
-  font-size:21px;
-}
-
-.bus-icon{
-  width:42px;
-  height:42px;
-  background:#000;
-  color:white;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin-right:15px;
-}
-
-.more{
-  text-align:center;
-  margin-top:20px;
-  font-size:19px;
-}
-
-.nearby{
-  margin:15px 20px;
-  background:white;
-  border:1px solid #eee;
-  border-radius:15px;
-  padding:14px;
-}
-
-.nearby h2{
-  font-size:27px;
-  margin-bottom:15px;
-}
-
-.map{
-  height:230px;
-  background:#c9e3ee;
-  border-radius:4px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#4b879d;
-  font-size:25px;
-}
-
-.bottom{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:80px;
-  background:white;
-  border-top:1px solid #ddd;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-}
-
-.nav{
-  text-align:center;
-  font-size:17px;
-}
-
-.nav-icon{
-  font-size:30px;
-  margin-bottom:5px;
-}
-
-.active{
-  font-weight:bold;
-}
-
-
-/* ========================= */
-/* TICKET SCREEN */
-/* ========================= */
-
-#ticketScreen{
-  display:none;
-  padding:25px 20px 100px;
-}
-
-.ticket-title{
-  font-size:30px;
-  font-weight:bold;
-  margin-bottom:25px;
-}
-
-.ticket-box{
-  background:white;
-  border-radius:18px;
-  padding:20px;
-  box-shadow:0 2px 8px #ddd;
-}
-
-.ticket-box label{
-  display:block;
-  font-size:18px;
-  font-weight:bold;
-  margin-top:15px;
-  margin-bottom:8px;
-}
-
-.ticket-box input,
-.ticket-box select{
-  width:100%;
-  height:52px;
-  border:1px solid #bbb;
-  border-radius:10px;
-  padding:0 12px;
-  font-size:17px;
-  background:white;
-}
-
-.book-btn{
-  width:100%;
-  height:55px;
-  margin-top:25px;
-  border:none;
-  border-radius:12px;
-  background:#111;
-  color:white;
-  font-size:19px;
-  font-weight:bold;
-}
-
-.back-btn{
-  width:100%;
-  height:50px;
-  margin-top:12px;
-  border:1px solid #999;
-  border-radius:12px;
-  background:white;
-  font-size:18px;
-}
-
-
-/* ========================= */
-/* CITY BUS TICKET */
-/* ========================= */
-
-#ticketResult{
-  display:none;
-  margin-top:25px;
-}
-
-.city-ticket{
-
-  background:#dff3ff;
-
-  border-radius:8px;
-
-  overflow:hidden;
-
-  box-shadow:0 4px 14px #aaa;
-
-  border:1px solid #ddd;
-
-}
-
-
-/* RED HEADER */
-
-.city-ticket-header{
-
-  background:#e21d25;
-
-  color:white;
-
-  text-align:center;
-
-  padding:15px 8px;
-
-  font-size:20px;
-
-  font-weight:bold;
-
-}
-
-
-/* TICKET CONTENT */
-
-.city-ticket-body{
-
-  padding:18px 15px 20px;
-
-}
-
-
-/* TOP DETAILS */
-
-.ticket-top{
-
-  display:grid;
-
-  grid-template-columns:1fr 1fr 1fr;
-
-  gap:8px;
-
-}
-
-.ticket-small-label{
-
-  color:#666;
-
-  font-size:12px;
-
-  margin-bottom:5px;
-
-}
-
-.ticket-big-value{
-
-  font-size:20px;
-
-  font-weight:bold;
-
-}
-
-
-/* ROUTE */
-
-.ticket-route{
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  gap:12px;
-
-  padding:22px 5px;
-
-  font-size:18px;
-
-  font-weight:bold;
-
-  border-bottom:2px dashed #aaa;
-
-}
-
-.route-arrow{
-
-  font-size:27px;
-
-}
-
-
-/* BOOKING / VALIDITY */
-
-.ticket-info{
-
-  display:grid;
-
-  grid-template-columns:1fr 1fr;
-
-  gap:12px;
-
-  padding:18px 0;
-
-}
-
-.info-label{
-
-  font-size:12px;
-
-  color:#666;
-
-}
-
-.info-value{
-
-  font-size:14px;
-
-  font-weight:bold;
-
-  margin-top:5px;
-
-  line-height:1.4;
-
-}
-
-
-/* VALID STAMP */
-
-.valid-stamp{
-
-  width:190px;
-
-  margin:10px auto 18px;
-
-  padding:8px;
-
-  text-align:center;
-
-  color:#c74444;
-
-  border:5px solid #c74444;
-
-  font-size:32px;
-
-  font-weight:900;
-
-  transform:rotate(-5deg);
-
-  opacity:.75;
-
-}
-
-
-/* CITY BUS SEAL */
-
-.city-seal{
-
-  width:135px;
-
-  height:135px;
-
-  border:3px solid #777;
-
-  border-radius:50%;
-
-  margin:5px auto 15px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  text-align:center;
-
-  position:relative;
-
-}
-
-.city-seal:before{
-
-  content:"CITY BUS";
-
-  color:#d21e27;
-
-  font-size:22px;
-
-  font-weight:900;
-
-}
-
-.city-seal:after{
-
-  content:"PUBLIC TRANSPORT";
-
-  position:absolute;
-
-  bottom:25px;
-
-  font-size:8px;
-
-  color:#555;
-
-}
-
-
-/* TICKET NUMBER */
-
-.ticket-number{
-
-  text-align:center;
-
-  color:#555;
-
-  font-size:13px;
-
-  margin-bottom:8px;
-
-}
-
-
-/* STATUS */
-
-.ticket-status{
-
-  text-align:center;
-
-  font-weight:bold;
-
-  font-size:16px;
-
-  margin-bottom:18px;
-
-}
-
-
-/* QR BUTTON */
-
-.qr-button{
-
-  width:100%;
-
-  height:52px;
-
-  border:1px solid #86c9a6;
-
-  border-radius:10px;
-
-  background:#c9f2dc;
-
-  color:#145b38;
-
-  font-size:18px;
-
-  font-weight:bold;
-
-}
-
-
-/* QR AREA */
-
-#qrArea{
-
-  display:none;
-
-  background:white;
-
-  margin-top:15px;
-
-  padding:20px 10px;
-
-  border-radius:10px;
-
-  border-top:2px dashed #aaa;
-
-  text-align:center;
-
-}
-
-#qrcode{
-
-  display:flex;
-
-  justify-content:center;
-
-  margin:10px auto 15px;
-
-}
-
-.qr-text{
-
-  color:#555;
-
-  font-size:13px;
-
-}
-
-
-/* ========================= */
-
-@media(max-width:380px){
-
-  .big-title{
-    font-size:23px;
-  }
-
-  .small-buttons{
-    padding-left:12px;
-    padding-right:12px;
-  }
-
-  .small-item{
-    font-size:14px;
-  }
-
-}
-
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#fafafa;color:#111;padding-bottom:85px}
+button{cursor:pointer}
+.header{height:95px;background:white;display:flex;align-items:center;justify-content:space-between;padding:20px 25px;border-bottom:1px solid #eee}
+.logo{width:70px;height:55px;border-radius:50%;border:2px solid #777;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;text-align:center}
+.profile{width:48px;height:48px;border-radius:50%;background:#000;color:white;display:flex;align-items:center;justify-content:center;font-size:27px;cursor:pointer}
+.search{margin:18px 16px 28px;height:62px;background:#e7e7e7;border-radius:35px;display:flex;align-items:center;padding:0 22px;font-size:25px;cursor:pointer}
+.search span{margin-left:15px}
+.main-buttons{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding:0 35px}
+.big-card{text-align:center;cursor:pointer}
+.card{height:115px;background:#dff3ff;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:52px;box-shadow:0 2px 7px #ccc}
+.big-title{font-size:28px;margin-top:18px}
+.small-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:30px 22px 20px}
+.small-item{text-align:center;font-size:16px;cursor:pointer}
+.small-card{height:90px;background:#dff3ff;border-radius:15px;display:flex;justify-content:center;align-items:center;font-size:38px;box-shadow:0 2px 6px #ddd;margin-bottom:12px}
+.near-title{display:flex;justify-content:space-between;padding:5px 25px 15px;font-size:27px;font-weight:bold}
+.show{text-decoration:underline;font-size:19px;font-weight:normal;cursor:pointer}
+.near-box{margin:0 22px 25px;background:#e7e7e7;border-radius:15px;padding:20px;cursor:pointer}
+.fetch{display:flex;align-items:center;font-size:21px}
+.bus-icon{width:42px;height:42px;background:#000;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:15px}
+.more{text-align:center;margin-top:20px;font-size:19px}
+.nearby{margin:15px 20px;background:white;border:1px solid #eee;border-radius:15px;padding:14px;cursor:pointer}
+.nearby h2{font-size:27px;margin-bottom:15px}
+.map{height:230px;background:#c9e3ee;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#4b879d;font-size:25px}
+.bottom{position:fixed;bottom:0;left:0;right:0;height:80px;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;align-items:center;z-index:100}
+.nav{text-align:center;font-size:17px;cursor:pointer}.nav-icon{font-size:30px;margin-bottom:5px}.active{font-weight:bold}
+.screen{display:none;padding:25px 20px 100px}.screen-title{font-size:30px;font-weight:bold;margin-bottom:25px}
+.ticket-box{background:white;border-radius:18px;padding:20px;box-shadow:0 2px 8px #ddd}
+.ticket-box label{display:block;font-size:18px;font-weight:bold;margin-top:15px;margin-bottom:8px}
+.ticket-box input,.ticket-box select{width:100%;height:52px;border:1px solid #bbb;border-radius:10px;padding:0 12px;font-size:17px;background:white}
+.book-btn{width:100%;height:55px;margin-top:25px;border:none;border-radius:12px;background:#111;color:white;font-size:19px;font-weight:bold}
+.back-btn{width:100%;height:50px;margin-top:12px;border:1px solid #999;border-radius:12px;background:white;font-size:18px}
+.city-ticket{background:#dff3ff;border-radius:8px;overflow:hidden;box-shadow:0 4px 14px #aaa;border:1px solid #ddd}
+.city-ticket-header{background:#e21d25;color:white;text-align:center;padding:15px 8px;font-size:20px;font-weight:bold}
+.city-ticket-body{padding:18px 15px 20px}.ticket-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.ticket-small-label{color:#666;font-size:12px;margin-bottom:5px}.ticket-big-value{font-size:20px;font-weight:bold}
+.ticket-route{display:flex;justify-content:center;align-items:center;gap:12px;padding:22px 5px;font-size:18px;font-weight:bold;border-bottom:2px dashed #aaa;word-break:break-word;text-align:center}
+.route-arrow{font-size:27px}.ticket-info{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:18px 0}
+.info-label{font-size:12px;color:#666}.info-value{font-size:14px;font-weight:bold;margin-top:5px;line-height:1.4;word-break:break-word}
+.valid-stamp{width:190px;margin:10px auto 18px;padding:8px;text-align:center;color:#c74444;border:5px solid #c74444;font-size:32px;font-weight:900;transform:rotate(-5deg);opacity:.75}
+.city-seal{width:135px;height:135px;border:3px solid #777;border-radius:50%;margin:5px auto 15px;display:flex;align-items:center;justify-content:center;text-align:center;position:relative}
+.city-seal:before{content:"CITY BUS";color:#d21e27;font-size:22px;font-weight:900}.city-seal:after{content:"PUBLIC TRANSPORT";position:absolute;bottom:25px;font-size:8px;color:#555}
+.ticket-number{text-align:center;color:#555;font-size:13px;margin-bottom:8px}.ticket-status{text-align:center;font-weight:bold;font-size:16px;margin-bottom:18px}
+.qr-button{width:100%;height:52px;border:1px solid #86c9a6;border-radius:10px;background:#c9f2dc;color:#145b38;font-size:18px;font-weight:bold}
+.list-card{background:white;padding:18px;border-radius:15px;margin-bottom:12px;box-shadow:0 2px 7px #ddd;cursor:pointer}
+.list-card h3{font-size:20px;margin-bottom:7px}.list-card p{color:#555;line-height:1.5}
+.bus-row{display:flex;align-items:center;gap:15px}.bus-round{width:50px;height:50px;background:#111;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:25px}
+.map-big{height:300px;background:#c9e3ee;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:25px;color:#4b879d;margin-bottom:15px}
+.profile-box{text-align:center;padding:25px}.profile-circle{width:90px;height:90px;background:#111;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:45px;margin:0 auto 20px}
+.map-link{display:block;text-align:center;margin-top:12px;color:#075b9a;text-decoration:underline;cursor:pointer}
+.payment-box{margin-top:18px;padding:15px;background:#fff;border:1px solid #ddd;border-radius:12px;text-align:center}
+#paymentQr{display:flex;justify-content:center;margin:12px auto}
+@media(max-width:380px){.big-title{font-size:23px}.small-buttons{padding-left:12px;padding-right:12px}.small-item{font-size:14px}}
 </style>
 </head>
-
-
-<body>
-
-
-<!-- ========================= -->
-<!-- HOME SCREEN -->
-<!-- ========================= -->
-
-<div id="homeScreen">
-
-<header class="header">
-
-  <div class="logo">
-    CITY<br>BUS
-  </div>
-
-  <div class="profile">
-    ●
-  </div>
-
-</header>
-
-
-<div class="search">
-
-  🔍
-
-  <span>
-    कुठे जायचे आहे?
-  </span>
-
-</div>
-
-
-<section class="main-buttons">
-
-
-  <!-- BUS TICKET -->
-
-  <div class="big-card"
-       onclick="openTicket()">
-
-    <div class="card">
-      🎫
-    </div>
-
-    <div class="big-title">
-      Bus Ticket
-    </div>
-
-  </div>
-
-
-  <!-- DAILY PASS -->
-
-  <div class="big-card">
-
-    <div class="card">
-      👤
-    </div>
-
-    <div class="big-title">
-      Daily Pass
-    </div>
-
-  </div>
-
-
-</section>
-
-
-<section class="small-buttons">
-
-
-  <div class="small-item">
-
-    <div class="small-card">
-      🎟️
-    </div>
-
-    View<br>Ticket
-
-  </div>
-
-
-  <div class="small-item">
-
-    <div class="small-card">
-      🎟️
-    </div>
-
-    View<br>Pass
-
-  </div>
-
-
-  <div class="small-item">
-
-    <div class="small-card">
-      ↕️
-    </div>
-
-    Route<br>Timetable
-
-  </div>
-
-
-  <div class="small-item">
-
-    <div class="small-card">
-      🚇
-    </div>
-
-    Metro<br>Ticket
-
-  </div>
-
-
-</section>
-
-
-<div class="near-title">
-
-  <span>
-    Near Me
-  </span>
-
-  <span class="show">
-    Show all
-  </span>
-
-</div>
-
-
-<div class="near-box">
-
-  <div class="fetch">
-
-    <div class="bus-icon">
-      🚌
-    </div>
-
-    <span>
-      Fetching...
-    </span>
-
-  </div>
-
-  <div class="more">
-    See More Buses
-  </div>
-
-</div>
-
-
-<section class="nearby">
-
-  <h2>
-    Nearby
-  </h2>
-
-  <div class="map">
-    🗺️ Nearby Bus Map
-  </div>
-
-</section>
-
-
-<nav class="bottom">
-
-  <div class="nav active">
-
-    <div class="nav-icon">
-      ⌂
-    </div>
-
-    Home
-
-  </div>
-
-
-  <div class="nav">
-
-    <div class="nav-icon">
-      ⌖
-    </div>
-
-    Buses
-
-  </div>
-
-
-  <div class="nav">
-
-    <div class="nav-icon">
-      ?
-    </div>
-
-    Help
-
-  </div>
-
+<body><div id="homeScreen">
+<header class="header"><div class="logo">CITY<br>BUS</div><div class="profile" onclick="openProfile()">●</div></header>
+<div class="search" onclick="openSearch()">🔍<span>कुठे जायचे आहे?</span></div><section class="main-buttons">
+<div class="big-card" onclick="openTicket()"><div class="card">🎫</div><div class="big-title">Bus Ticket</div></div>
+<div class="big-card" onclick="openPass()"><div class="card">👤</div><div class="big-title">Daily Pass</div></div>
+</section><section class="small-buttons">
+<div class="small-item" onclick="viewTicket()"><div class="small-card">🎟️</div>View<br>Ticket</div>
+<div class="small-item" onclick="viewPass()"><div class="small-card">🎟️</div>View<br>Pass</div>
+<div class="small-item" onclick="openTimetable()"><div class="small-card">↕️</div>Route<br>Timetable</div>
+<div class="small-item" onclick="openMetro()"><div class="small-card">🚇</div>Metro<br>Ticket</div>
+</section><div class="near-title"><span>Near Me</span><span class="show" onclick="openBuses()">Show all</span></div>
+<div class="near-box" onclick="openBuses()"><div class="fetch"><div class="bus-icon">🚌</div><span>Nearby buses available</span></div><div class="more">See More Buses</div></div><section class="nearby" onclick="openNearby()"><h2>Nearby</h2><div class="map">🗺️ Alandi → Nigdi Map</div></section><nav class="bottom">
+<div class="nav active" onclick="goHome()"><div class="nav-icon">⌂</div>Home</div>
+<div class="nav" onclick="openBuses()"><div class="nav-icon">⌖</div>Buses</div>
+<div class="nav" onclick="openHelp()"><div class="nav-icon">?</div>Help</div>
 </nav>
-
-
+</div><div id="ticketScreen" class="screen">
+<div class="screen-title">🎫 Bus Ticket Booking</div>
+<div class="ticket-box">
+<label>From</label><input type="text" id="from" placeholder="Enter starting point">
+<label>To</label><input type="text" id="to" placeholder="Enter destination">
+<label>Date</label><input type="date" id="date">
+<label>Passengers</label><select id="passengers"><option value="1">1 Passenger</option><option value="2">2 Passengers</option><option value="3">3 Passengers</option><option value="4">4 Passengers</option><option value="5">5 Passengers</option></select>
+<button class="book-btn" onclick="bookTicket()">🎫 Book Ticket</button>
+<button class="back-btn" onclick="goHome()">← Back to Home</button>
+<div id="ticketResult" style="display:none;margin-top:25px"></div>
 </div>
-
-
-<!-- ========================= -->
-<!-- BUS TICKET SCREEN -->
-<!-- ========================= -->
-
-<div id="ticketScreen">
-
-
-  <div class="ticket-title">
-
-    🎫 Bus Ticket Booking
-
-  </div>
-
-
-  <div class="ticket-box">
-
-
-    <label>
-      From
-    </label>
-
-    <input
-      type="text"
-      id="from"
-      placeholder="Enter starting point"
-    >
-
-
-    <label>
-      To
-    </label>
-
-    <input
-      type="text"
-      id="to"
-      placeholder="Enter destination"
-    >
-
-
-    <label>
-      Date
-    </label>
-
-    <input
-      type="date"
-      id="date"
-    >
-
-
-    <label>
-      Passengers
-    </label>
-
-    <select id="passengers">
-
-      <option value="1">
-        1 Passenger
-      </option>
-
-      <option value="2">
-        2 Passengers
-      </option>
-
-      <option value="3">
-        3 Passengers
-      </option>
-
-      <option value="4">
-        4 Passengers
-      </option>
-
-      <option value="5">
-        5 Passengers
-      </option>
-
-    </select>
-
-
-    <button
-      class="book-btn"
-      onclick="bookTicket()"
-    >
-
-      🎫 Book Ticket
-
-    </button>
-
-
-    <button
-      class="back-btn"
-      onclick="goHome()"
-    >
-
-      ← Back to Home
-
-    </button>
-
-
-    <!-- NEW TICKET WILL APPEAR HERE -->
-
-    <div id="ticketResult"></div>
-
-
-  </div>
-
+</div><div id="passScreen" class="screen">
+<div class="screen-title">👤 Daily Pass</div>
+<div class="ticket-box">
+<label>Name</label><input type="text" id="passName" placeholder="Enter your name">
+<label>Date</label><input type="date" id="passDate">
+<label>City</label><input type="text" id="passCity" placeholder="Enter city">
+<button class="book-btn" onclick="createPass()">🎫 Create Daily Pass</button>
+<button class="back-btn" onclick="goHome()">← Back to Home</button>
+<div id="passResult" style="display:none;margin-top:25px"></div>
 </div>
-
-
-
-<script>
-
-
-/* ========================= */
-/* OPEN TICKET */
-/* ========================= */
-
-function openTicket(){
-
-  document.getElementById(
-    "homeScreen"
-  ).style.display="none";
-
-
-  document.getElementById(
-    "ticketScreen"
-  ).style.display="block";
-
-
-  window.scrollTo(0,0);
-
-}
-
-
-
-/* ========================= */
-/* HOME */
-/* ========================= */
-
-function goHome(){
-
-  document.getElementById(
-    "ticketScreen"
-  ).style.display="none";
-
-
-  document.getElementById(
-    "homeScreen"
-  ).style.display="block";
-
-
-  window.scrollTo(0,0);
-
-}
-
-
-
-/* ========================= */
-/* BOOK TICKET */
-/* ========================= */
+</div><div id="viewTicketScreen" class="screen"><div class="screen-title">🎟️ My Ticket</div><div id="savedTicketResult"></div><button class="back-btn" onclick="goHome()">← Back to Home</button></div>
+<div id="viewPassScreen" class="screen"><div class="screen-title">🎟️ My Daily Pass</div><div id="savedPassResult"></div><button class="back-btn" onclick="goHome()">← Back to Home</button></div><div id="timetableScreen" class="screen">
+<div class="screen-title">↕️ Route Timetable</div>
+<div class="list-card" onclick="routeDetails('340')"><h3>🚌 Route 340</h3><p>Alandi → Dehu Phata → Nigdi</p></div>
+<div class="list-card" onclick="routeDetails('101')"><h3>🚌 Route 101</h3><p>Central Bus Stand → Railway Station</p></div>
+<div class="list-card" onclick="routeDetails('102')"><h3>🚌 Route 102</h3><p>City Center → Market → Bus Stand</p></div>
+<div id="routeDetails"></div><button class="back-btn" onclick="goHome()">← Back to Home</button>
+</div><div id="metroScreen" class="screen">
+<div class="screen-title">🚇 Metro Ticket</div><div class="ticket-box">
+<label>From Station</label><input id="metroFrom" placeholder="Enter station">
+<label>To Station</label><input id="metroTo" placeholder="Enter station">
+<label>Passengers</label><select id="metroPassengers"><option value="1">1 Passenger</option><option value="2">2 Passengers</option><option value="3">3 Passengers</option></select>
+<button class="book-btn" onclick="bookMetro()">🚇 Generate Metro Ticket</button><button class="back-btn" onclick="goHome()">← Back to Home</button><div id="metroResult"></div>
+</div></div><div id="busesScreen" class="screen">
+<div class="screen-title">🚌 Nearby Buses</div>
+<div class="list-card" onclick="busDetails('340')"><div class="bus-row"><div class="bus-round">🚌</div><div><h3>BUS-340</h3><p>Alandi → Nigdi • 5 min</p></div></div></div>
+<div class="list-card" onclick="busDetails('CITY-101')"><div class="bus-row"><div class="bus-round">🚌</div><div><h3>CITY-101</h3><p>Central Stand • 8 min</p></div></div></div>
+<div class="list-card" onclick="busDetails('CITY-102')"><div class="bus-row"><div class="bus-round">🚌</div><div><h3>CITY-102</h3><p>Railway Station • 12 min</p></div></div></div>
+<div id="busDetails"></div><button class="back-btn" onclick="goHome()">← Back to Home</button>
+</div><div id="nearbyScreen" class="screen">
+<div class="screen-title">🗺️ Nearby Navigation</div>
+<div class="map-big">📍 Alandi → Nigdi Route Map</div>
+<button class="book-btn" onclick="openRouteMap()">🧭 Open Navigation</button>
+<button class="book-btn" onclick="findLocation()">📍 Find My Location</button>
+<div id="locationText" style="text-align:center;margin-top:15px;font-weight:bold"></div>
+<button class="back-btn" onclick="goHome()">← Back to Home</button>
+</div><div id="profileScreen" class="screen">
+<div class="screen-title">👤 Profile</div><div class="ticket-box profile-box"><div class="profile-circle">●</div>
+<label>Name</label><input id="profileName" placeholder="Enter your name">
+<label>Mobile Number</label><input id="profileMobile" type="tel" placeholder="Enter mobile number">
+<button class="book-btn" onclick="saveProfile()">💾 Save Profile</button><div id="profileMessage" style="margin-top:15px;text-align:center;font-weight:bold"></div>
+<button class="back-btn" onclick="goHome()">← Back to Home</button></div>
+</div><div id="helpScreen" class="screen">
+<div class="screen-title">❓ Help & Support</div>
+<div class="list-card" onclick="alert('From, To, Date आणि Passengers भरून Book Ticket दाबा.')"><h3>🎫 How to book ticket?</h3><p>Ticket booking help</p></div>
+<div class="list-card" onclick="viewTicket()"><h3>🎟️ Where is my ticket?</h3><p>View your saved ticket</p></div>
+<div class="list-card" onclick="viewPass()"><h3>👤 Daily Pass Help</h3><p>View your daily pass</p></div>
+<div class="list-card" onclick="alert('Demo payment QR तयार केला जातो. Real payment साठी payment gateway/backend आवश्यक आहे.')"><h3>💳 Payment Help</h3><p>QR payment information</p></div>
+<div class="list-card" onclick="alert('City Bus Support शी संपर्क करा.')"><h3>📞 Contact Support</h3><p>City Bus Support</p></div>
+<button class="back-btn" onclick="goHome()">← Back to Home</button>
+</div><div id="searchScreen" class="screen">
+<div class="screen-title">🔍 Search Destination</div><div class="ticket-box">
+<label>Where do you want to go?</label><input id="searchDestination" placeholder="Enter destination">
+<button class="book-btn" onclick="searchDestination()">🔍 Search Bus</button><button class="back-btn" onclick="goHome()">← Back to Home</button>
+</div></div><script>
+function hideAll(){document.getElementById("homeScreen").style.display="none";document.querySelectorAll(".screen").forEach(s=>s.style.display="none")}
+function show(id){hideAll();document.getElementById(id).style.display="block";window.scrollTo(0,0)}
+function goHome(){show("homeScreen")}
+function openTicket(){show("ticketScreen")}
+function openPass(){show("passScreen")}
+function openTimetable(){show("timetableScreen")}
+function openMetro(){show("metroScreen")}
+function openBuses(){show("busesScreen")}
+function openNearby(){show("nearbyScreen")}
+function openProfile(){show("profileScreen");let d=JSON.parse(localStorage.getItem("cityBusProfile")||"null");if(d){profileName.value=d.name;profileMobile.value=d.mobile}}
+function openHelp(){show("helpScreen")}
+function openSearch(){show("searchScreen")}
 
 function bookTicket(){
-
-  let from=document.getElementById(
-    "from"
-  ).value.trim();
-
-
-  let to=document.getElementById(
-    "to"
-  ).value.trim();
-
-
-  let date=document.getElementById(
-    "date"
-  ).value;
-
-
-  let passengers=document.getElementById(
-    "passengers"
-  ).value;
-
-
-  if(
-    from==="" ||
-    to==="" ||
-    date===""
-  ){
-
-    alert(
-      "Please enter From, To and Date."
-    );
-
-    return;
-
-  }
-
-
-  /* CURRENT TIME */
-
-  let now=new Date();
-
-
-  let bookingTime=
-    now.toLocaleDateString("en-IN")
-    +" | "+
-    now.toLocaleTimeString(
-      "en-IN",
-      {
-        hour:"2-digit",
-        minute:"2-digit"
-      }
-    );
-
-
-  /* VALIDITY = 2 HOURS */
-
-  let validUntil=
-    new Date(
-      now.getTime()
-      +
-      (2*60*60*1000)
-    );
-
-
-  let validityTime=
-    validUntil.toLocaleDateString("en-IN")
-    +" | "+
-    validUntil.toLocaleTimeString(
-      "en-IN",
-      {
-        hour:"2-digit",
-        minute:"2-digit"
-      }
-    );
-
-
-  /* TICKET NUMBER */
-
-  let ticketNumber=
-    "CB"+
-    Date.now()
-    .toString()
-    .slice(-8);
-
-
-  /* DEMO FARE */
-
-  let fare=
-    parseInt(passengers)*15;
-
-
-  /* BUS NUMBER */
-
-  let busNumber=
-    "CITY-101";
-
-
-  /* SHOW TICKET */
-
-  let result=
-    document.getElementById(
-      "ticketResult"
-    );
-
-
-  result.style.display="block";
-
-
-  result.innerHTML=
-
-  `
-
-  <div class="city-ticket">
-
-
-    <div class="city-ticket-header">
-
-      CITY BUS
-
-    </div>
-
-
-    <div class="city-ticket-body">
-
-
-      <!-- TOP -->
-
-      <div class="ticket-top">
-
-
-        <div>
-
-          <div class="ticket-small-label">
-            Route
-          </div>
-
-          <div class="ticket-big-value">
-            ${busNumber}
-          </div>
-
-        </div>
-
-
-        <div>
-
-          <div class="ticket-small-label">
-            Tickets count
-          </div>
-
-          <div class="ticket-big-value">
-            ${passengers}
-          </div>
-
-        </div>
-
-
-        <div>
-
-          <div class="ticket-small-label">
-            Fare
-          </div>
-
-          <div class="ticket-big-value">
-            ₹${fare}
-          </div>
-
-        </div>
-
-
-      </div>
-
-
-      <!-- ROUTE -->
-
-      <div class="ticket-route">
-
-        <span>
-          ${from}
-        </span>
-
-        <span class="route-arrow">
-          ⟶
-        </span>
-
-        <span>
-          ${to}
-        </span>
-
-      </div>
-
-
-      <!-- TIME -->
-
-      <div class="ticket-info">
-
-
-        <div>
-
-          <div class="info-label">
-            Booking Time
-          </div>
-
-          <div class="info-value">
-            ${bookingTime}
-          </div>
-
-        </div>
-
-
-        <div>
-
-          <div class="info-label">
-            Validity Time
-          </div>
-
-          <div class="info-value">
-            ${validityTime}
-          </div>
-
-        </div>
-
-
-      </div>
-
-
-      <!-- VALID -->
-
-      <div class="valid-stamp">
-
-        VALID
-
-      </div>
-
-
-      <!-- CITY BUS SEAL -->
-
-      <div class="city-seal"></div>
-
-
-      <!-- TICKET NUMBER -->
-
-      <div class="ticket-number">
-
-        Ticket No:
-        ${ticketNumber}
-
-      </div>
-
-
-      <div class="ticket-status">
-
-        🟢 Valid Ticket
-
-      </div>
-
-
-      <!-- QR -->
-
-      <div id="qrArea">
-
-
-        <div id="qrcode"></div>
-
-
-        <div class="qr-text">
-
-          Scan this QR code to verify ticket
-
-        </div>
-
-
-      </div>
-
-
-      <button
-        class="qr-button"
-        onclick="showQRCode()"
-      >
-
-        ▦ &nbsp; Show QR Code
-
-      </button>
-
-
-    </div>
-
-  </div>
-
-  `;
-
-
-  /* SAVE TICKET DATA */
-
-  localStorage.setItem(
-
-    "cityBusTicket",
-
-    JSON.stringify({
-
-      from:from,
-
-      to:to,
-
-      date:date,
-
-      passengers:passengers,
-
-      fare:fare,
-
-      ticketNumber:ticketNumber,
-
-      bookingTime:bookingTime,
-
-      validityTime:validityTime,
-
-      busNumber:busNumber
-
-    })
-
-  );
-
-
-  /* SCROLL TO TICKET */
-
-  setTimeout(function(){
-
-    result.scrollIntoView({
-      behavior:"smooth"
-    });
-
-  },200);
-
+let from=document.getElementById("from").value.trim(),to=document.getElementById("to").value.trim(),date=document.getElementById("date").value,passengers=document.getElementById("passengers").value;
+if(!from||!to||!date){alert("Please enter From, To and Date.");return}
+let now=new Date(),number="CB"+Date.now().toString().slice(-8),data={from,to,date,passengers,fare:parseInt(passengers)*40,ticketNumber:number,busNumber:"340",bookingTime:now.toLocaleString("en-IN"),validityTime:new Date(now.getTime()+7200000).toLocaleString("en-IN"),paid:false};
+localStorage.setItem("cityBusTicket",JSON.stringify(data));showTicket(data,"ticketResult");document.getElementById("ticketResult").scrollIntoView({behavior:"smooth"})
 }
 
-
-
-/* ========================= */
-/* SHOW QR */
-/* ========================= */
-
-function showQRCode(){
-
-  let qrArea=
-    document.getElementById(
-      "qrArea"
-    );
-
-
-  qrArea.style.display="block";
-
-
-  let qr=
-    document.getElementById(
-      "qrcode"
-    );
-
-
-  qr.innerHTML="";
-
-
-  let saved=
-    localStorage.getItem(
-      "cityBusTicket"
-    );
-
-
-  if(!saved){
-
-    return;
-
-  }
-
-
-  let data=
-    JSON.parse(saved);
-
-
-  let qrText=
-
-    "CITY BUS TICKET\n"+
-    "Ticket No: "+
-    data.ticketNumber+
-    "\nFrom: "+
-    data.from+
-    "\nTo: "+
-    data.to+
-    "\nDate: "+
-    data.date+
-    "\nFare: Rs."+data.fare;
-
-
-  new QRCode(
-
-    qr,
-
-    {
-
-      text:qrText,
-
-      width:190,
-
-      height:190
-
-    }
-
-  );
-
+function showTicket(data,id){
+let r=document.getElementById(id);r.style.display="block";r.innerHTML=`<div class="city-ticket"><div class="city-ticket-header">CITY BUS - BUS 340</div><div class="city-ticket-body"><div class="ticket-top"><div><div class="ticket-small-label">Route</div><div class="ticket-big-value">${data.busNumber}</div></div><div><div class="ticket-small-label">Tickets</div><div class="ticket-big-value">${data.passengers}</div></div><div><div class="ticket-small-label">Fare</div><div class="ticket-big-value">₹${data.fare}</div></div></div><div class="ticket-route"><span>${data.from}</span><span class="route-arrow">⟶</span><span>${data.to}</span></div><div class="ticket-info"><div><div class="info-label">Booking Time</div><div class="info-value">${data.bookingTime}</div></div><div><div class="info-label">Validity</div><div class="info-value">${data.validityTime}</div></div></div><div class="valid-stamp">VALID</div><div class="city-seal"></div><div class="ticket-number">Ticket No: ${data.ticketNumber}</div><div class="ticket-status">${data.paid?"🟢 Payment Successful":"🟠 Payment Pending"}</div><div id="qrArea-${id}" class="payment-box"><b>Payment QR - ₹${data.fare}</b><div id="paymentQr-${id}"></div><button class="qr-button" onclick="completePayment('${id}')">✅ Pay Now / Confirm Payment</button></div><button class="qr-button" onclick="showQRCodeFor('${id}')">▦ Show Ticket QR</button></div></div></div>`
 }
 
-</script>
-
-
-</body>
+function showQRCodeFor(id){
+let data=JSON.parse(localStorage.getItem("cityBusTicket")||"null");if(!data)return;let el=document.getElementById("paymentQr-"+id);el.innerHTML="";new QRCode(el,{text:`CITY BUS TICKET|${data.ticketNumber}|BUS ${data.busNumber}|${data.from} TO ${data.to}|FARE ₹${data.fare}`,width:190,height:190})
+}
+function completePayment(id){let d=JSON.parse(localStorage.getItem("cityBusTicket"));d.paid=true;localStorage.setItem("cityBusTicket",JSON.stringify(d));showTicket(d,id);alert("Demo payment successful. Ticket is confirmed.")}
+function viewTicket(){show("viewTicketScreen");let d=JSON.parse(localStorage.getItem("cityBusTicket")||"null");savedTicketResult.innerHTML=d?"" : `<div class="list-card"><h3>No Ticket Found</h3><p>Please book a ticket first.</p></div>`;if(d)showTicket(d,"savedTicketResult")}
+function createPass(){let name=passName.value.trim(),date=passDate.value,city=passCity.value.trim();if(!name||!date||!city){alert("Please enter all details.");return}let d={name,date,city,passNumber:"PASS"+Date.now().toString().slice(-8)};localStorage.setItem("cityBusPass",JSON.stringify(d));showPass(d,"passResult")}
+function showPass(d,id){let r=document.getElementById(id);r.style.display="block";r.innerHTML=`<div class="city-ticket"><div class="city-ticket-header">CITY BUS - DAILY PASS</div><div class="city-ticket-body"><div class="ticket-info"><div><div class="info-label">Name</div><div class="info-value">${d.name}</div></div><div><div class="info-label">City</div><div class="info-value">${d.city}</div></div><div><div class="info-label">Valid Date</div><div class="info-value">${d.date}</div></div><div><div class="info-label">Pass Number</div><div class="info-value">${d.passNumber}</div></div></div><div class="valid-stamp">VALID</div><div class="city-seal"></div><div class="ticket-status">🟢 Active Daily Pass</div></div></div>`}
+function viewPass(){show("viewPassScreen");let d=JSON.parse(localStorage.getItem("cityBusPass")||"null");savedPassResult.innerHTML=d?"":`<div class="list-card"><h3>No Active Pass</h3><p>Create a Daily Pass first.</p></div>`;if(d)showPass(d,"savedPassResult")}
+function routeDetails(route){let text=route==="340"?"Alandi → Dehu Phata → Nigdi. Fare ₹40. Frequency every 15 minutes.":"Route "+route+" timetable available.";document.getElementById("routeDetails").innerHTML=`<div class="list-card"><h3>🚌 Route ${route}</h3><p>${text}</p><span class="map-link" onclick="openRouteMap()">Open route navigation</span></div>`}
+function bookMetro(){let f=metroFrom.value.trim(),t=metroTo.value.trim(),p=metroPassengers.value;if(!f||!t){alert("Please enter both stations.");return}metroResult.innerHTML=`<div class="city-ticket"><div class="city-ticket-header">CITY METRO</div><div class="city-ticket-body"><div class="ticket-route">${f} ⟶ ${t}</div><div class="ticket-status">🟢 Metro Ticket Generated<br>Fare ₹${p*20}</div></div></div>`}
+function busDetails(bus){busDetails.innerHTML=`<div class="list-card"><h3>🚌 BUS-${bus}</h3><p>Route selected successfully.</p><span class="map-link" onclick="openRouteMap()">Open navigation</span></div>`}
+function findLocation(){let t=document.getElementById("locationText");if(!navigator.geolocation){t.innerHTML="Location is not supported.";return}t.innerHTML="📍 Finding location...";navigator.geolocation.getCurrentPosition(()=>t.innerHTML="📍 Location found successfully.",()=>t.innerHTML="Location permission denied.")}
+function openRouteMap(){window.open("https://www.google.com/maps/dir/Alandi,+Maharashtra/Nigdi,+Pimpri-Chinchwad,+Maharashtra","_blank")}
+function saveProfile(){let n=profileName.value.trim(),m=profileMobile.value.trim();if(!n||!m){alert("Please enter Name and Mobile Number.");return}localStorage.setItem("cityBusProfile",JSON.stringify({name:n,mobile:m}));profileMessage.innerHTML="✅ Profile saved successfully."}
+function searchDestination(){let d=searchDestination.value.trim();if(!d){alert("Please enter destination.");return}openTicket();to.value=d}
+</script></body>
 </html>
