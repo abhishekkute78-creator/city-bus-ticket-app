@@ -5,7 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>City Bus Ticket</title>
 
+<!-- QR CODE LIBRARY -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -218,7 +222,10 @@ body{
   font-weight:bold;
 }
 
+
+/* ========================= */
 /* TICKET SCREEN */
+/* ========================= */
 
 #ticketScreen{
   display:none;
@@ -279,18 +286,330 @@ body{
   font-size:18px;
 }
 
+
+/* ========================= */
+/* CITY BUS TICKET */
+/* ========================= */
+
 #ticketResult{
   display:none;
-  margin-top:20px;
-  background:#e8f7e8;
-  border:1px solid #7bbb7b;
-  border-radius:15px;
-  padding:18px;
-  font-size:17px;
-  line-height:1.7;
+  margin-top:25px;
 }
 
+.city-ticket{
+
+  background:#dff3ff;
+
+  border-radius:8px;
+
+  overflow:hidden;
+
+  box-shadow:0 4px 14px #aaa;
+
+  border:1px solid #ddd;
+
+}
+
+
+/* RED HEADER */
+
+.city-ticket-header{
+
+  background:#e21d25;
+
+  color:white;
+
+  text-align:center;
+
+  padding:15px 8px;
+
+  font-size:20px;
+
+  font-weight:bold;
+
+}
+
+
+/* TICKET CONTENT */
+
+.city-ticket-body{
+
+  padding:18px 15px 20px;
+
+}
+
+
+/* TOP DETAILS */
+
+.ticket-top{
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr 1fr;
+
+  gap:8px;
+
+}
+
+.ticket-small-label{
+
+  color:#666;
+
+  font-size:12px;
+
+  margin-bottom:5px;
+
+}
+
+.ticket-big-value{
+
+  font-size:20px;
+
+  font-weight:bold;
+
+}
+
+
+/* ROUTE */
+
+.ticket-route{
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:12px;
+
+  padding:22px 5px;
+
+  font-size:18px;
+
+  font-weight:bold;
+
+  border-bottom:2px dashed #aaa;
+
+}
+
+.route-arrow{
+
+  font-size:27px;
+
+}
+
+
+/* BOOKING / VALIDITY */
+
+.ticket-info{
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:12px;
+
+  padding:18px 0;
+
+}
+
+.info-label{
+
+  font-size:12px;
+
+  color:#666;
+
+}
+
+.info-value{
+
+  font-size:14px;
+
+  font-weight:bold;
+
+  margin-top:5px;
+
+  line-height:1.4;
+
+}
+
+
+/* VALID STAMP */
+
+.valid-stamp{
+
+  width:190px;
+
+  margin:10px auto 18px;
+
+  padding:8px;
+
+  text-align:center;
+
+  color:#c74444;
+
+  border:5px solid #c74444;
+
+  font-size:32px;
+
+  font-weight:900;
+
+  transform:rotate(-5deg);
+
+  opacity:.75;
+
+}
+
+
+/* CITY BUS SEAL */
+
+.city-seal{
+
+  width:135px;
+
+  height:135px;
+
+  border:3px solid #777;
+
+  border-radius:50%;
+
+  margin:5px auto 15px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-align:center;
+
+  position:relative;
+
+}
+
+.city-seal:before{
+
+  content:"CITY BUS";
+
+  color:#d21e27;
+
+  font-size:22px;
+
+  font-weight:900;
+
+}
+
+.city-seal:after{
+
+  content:"PUBLIC TRANSPORT";
+
+  position:absolute;
+
+  bottom:25px;
+
+  font-size:8px;
+
+  color:#555;
+
+}
+
+
+/* TICKET NUMBER */
+
+.ticket-number{
+
+  text-align:center;
+
+  color:#555;
+
+  font-size:13px;
+
+  margin-bottom:8px;
+
+}
+
+
+/* STATUS */
+
+.ticket-status{
+
+  text-align:center;
+
+  font-weight:bold;
+
+  font-size:16px;
+
+  margin-bottom:18px;
+
+}
+
+
+/* QR BUTTON */
+
+.qr-button{
+
+  width:100%;
+
+  height:52px;
+
+  border:1px solid #86c9a6;
+
+  border-radius:10px;
+
+  background:#c9f2dc;
+
+  color:#145b38;
+
+  font-size:18px;
+
+  font-weight:bold;
+
+}
+
+
+/* QR AREA */
+
+#qrArea{
+
+  display:none;
+
+  background:white;
+
+  margin-top:15px;
+
+  padding:20px 10px;
+
+  border-radius:10px;
+
+  border-top:2px dashed #aaa;
+
+  text-align:center;
+
+}
+
+#qrcode{
+
+  display:flex;
+
+  justify-content:center;
+
+  margin:10px auto 15px;
+
+}
+
+.qr-text{
+
+  color:#555;
+
+  font-size:13px;
+
+}
+
+
+/* ========================= */
+
 @media(max-width:380px){
+
   .big-title{
     font-size:23px;
   }
@@ -303,75 +622,158 @@ body{
   .small-item{
     font-size:14px;
   }
+
 }
+
 </style>
 </head>
 
+
 <body>
 
+
+<!-- ========================= -->
 <!-- HOME SCREEN -->
+<!-- ========================= -->
 
 <div id="homeScreen">
 
 <header class="header">
-  <div class="logo">CITY<br>BUS</div>
-  <div class="profile">●</div>
+
+  <div class="logo">
+    CITY<br>BUS
+  </div>
+
+  <div class="profile">
+    ●
+  </div>
+
 </header>
 
+
 <div class="search">
+
   🔍
-  <span>कुठे जायचे आहे?</span>
+
+  <span>
+    कुठे जायचे आहे?
+  </span>
+
 </div>
+
 
 <section class="main-buttons">
 
+
   <!-- BUS TICKET -->
-  <div class="big-card" onclick="openTicket()">
-    <div class="card">🎫</div>
-    <div class="big-title">Bus Ticket</div>
+
+  <div class="big-card"
+       onclick="openTicket()">
+
+    <div class="card">
+      🎫
+    </div>
+
+    <div class="big-title">
+      Bus Ticket
+    </div>
+
   </div>
+
+
+  <!-- DAILY PASS -->
 
   <div class="big-card">
-    <div class="card">👤</div>
-    <div class="big-title">Daily Pass</div>
+
+    <div class="card">
+      👤
+    </div>
+
+    <div class="big-title">
+      Daily Pass
+    </div>
+
   </div>
 
+
 </section>
+
 
 <section class="small-buttons">
 
+
   <div class="small-item">
-    <div class="small-card">🎟️</div>
+
+    <div class="small-card">
+      🎟️
+    </div>
+
     View<br>Ticket
+
   </div>
 
+
   <div class="small-item">
-    <div class="small-card">🎟️</div>
+
+    <div class="small-card">
+      🎟️
+    </div>
+
     View<br>Pass
+
   </div>
 
+
   <div class="small-item">
-    <div class="small-card">↕️</div>
+
+    <div class="small-card">
+      ↕️
+    </div>
+
     Route<br>Timetable
+
   </div>
 
+
   <div class="small-item">
-    <div class="small-card">🚇</div>
+
+    <div class="small-card">
+      🚇
+    </div>
+
     Metro<br>Ticket
+
   </div>
+
 
 </section>
 
+
 <div class="near-title">
-  <span>Near Me</span>
-  <span class="show">Show all</span>
+
+  <span>
+    Near Me
+  </span>
+
+  <span class="show">
+    Show all
+  </span>
+
 </div>
+
 
 <div class="near-box">
 
   <div class="fetch">
-    <div class="bus-icon">🚌</div>
-    <span>Fetching...</span>
+
+    <div class="bus-icon">
+      🚌
+    </div>
+
+    <span>
+      Fetching...
+    </span>
+
   </div>
 
   <div class="more">
@@ -380,9 +782,12 @@ body{
 
 </div>
 
+
 <section class="nearby">
 
-  <h2>Nearby</h2>
+  <h2>
+    Nearby
+  </h2>
 
   <div class="map">
     🗺️ Nearby Bus Map
@@ -390,124 +795,618 @@ body{
 
 </section>
 
+
 <nav class="bottom">
 
   <div class="nav active">
-    <div class="nav-icon">⌂</div>
+
+    <div class="nav-icon">
+      ⌂
+    </div>
+
     Home
+
   </div>
 
+
   <div class="nav">
-    <div class="nav-icon">⌖</div>
+
+    <div class="nav-icon">
+      ⌖
+    </div>
+
     Buses
+
   </div>
 
+
   <div class="nav">
-    <div class="nav-icon">?</div>
+
+    <div class="nav-icon">
+      ?
+    </div>
+
     Help
+
   </div>
 
 </nav>
 
+
 </div>
 
 
+<!-- ========================= -->
 <!-- BUS TICKET SCREEN -->
+<!-- ========================= -->
 
 <div id="ticketScreen">
 
+
   <div class="ticket-title">
+
     🎫 Bus Ticket Booking
+
   </div>
+
 
   <div class="ticket-box">
 
-    <label>From</label>
-    <input type="text" id="from" placeholder="Enter starting point">
 
-    <label>To</label>
-    <input type="text" id="to" placeholder="Enter destination">
+    <label>
+      From
+    </label>
 
-    <label>Date</label>
-    <input type="date" id="date">
+    <input
+      type="text"
+      id="from"
+      placeholder="Enter starting point"
+    >
 
-    <label>Passengers</label>
+
+    <label>
+      To
+    </label>
+
+    <input
+      type="text"
+      id="to"
+      placeholder="Enter destination"
+    >
+
+
+    <label>
+      Date
+    </label>
+
+    <input
+      type="date"
+      id="date"
+    >
+
+
+    <label>
+      Passengers
+    </label>
+
     <select id="passengers">
-      <option value="1">1 Passenger</option>
-      <option value="2">2 Passengers</option>
-      <option value="3">3 Passengers</option>
-      <option value="4">4 Passengers</option>
-      <option value="5">5 Passengers</option>
+
+      <option value="1">
+        1 Passenger
+      </option>
+
+      <option value="2">
+        2 Passengers
+      </option>
+
+      <option value="3">
+        3 Passengers
+      </option>
+
+      <option value="4">
+        4 Passengers
+      </option>
+
+      <option value="5">
+        5 Passengers
+      </option>
+
     </select>
 
-    <button class="book-btn" onclick="bookTicket()">
+
+    <button
+      class="book-btn"
+      onclick="bookTicket()"
+    >
+
       🎫 Book Ticket
+
     </button>
 
-    <button class="back-btn" onclick="goHome()">
+
+    <button
+      class="back-btn"
+      onclick="goHome()"
+    >
+
       ← Back to Home
+
     </button>
+
+
+    <!-- NEW TICKET WILL APPEAR HERE -->
 
     <div id="ticketResult"></div>
+
 
   </div>
 
 </div>
+
 
 
 <script>
 
+
+/* ========================= */
+/* OPEN TICKET */
+/* ========================= */
+
 function openTicket(){
 
-  document.getElementById("homeScreen").style.display="none";
+  document.getElementById(
+    "homeScreen"
+  ).style.display="none";
 
-  document.getElementById("ticketScreen").style.display="block";
+
+  document.getElementById(
+    "ticketScreen"
+  ).style.display="block";
+
 
   window.scrollTo(0,0);
 
 }
 
+
+
+/* ========================= */
+/* HOME */
+/* ========================= */
 
 function goHome(){
 
-  document.getElementById("ticketScreen").style.display="none";
+  document.getElementById(
+    "ticketScreen"
+  ).style.display="none";
 
-  document.getElementById("homeScreen").style.display="block";
+
+  document.getElementById(
+    "homeScreen"
+  ).style.display="block";
+
 
   window.scrollTo(0,0);
 
 }
 
 
+
+/* ========================= */
+/* BOOK TICKET */
+/* ========================= */
+
 function bookTicket(){
 
-  let from=document.getElementById("from").value;
-  let to=document.getElementById("to").value;
-  let date=document.getElementById("date").value;
-  let passengers=document.getElementById("passengers").value;
+  let from=document.getElementById(
+    "from"
+  ).value.trim();
 
-  if(from=="" || to=="" || date==""){
 
-    alert("Please enter From, To and Date.");
+  let to=document.getElementById(
+    "to"
+  ).value.trim();
+
+
+  let date=document.getElementById(
+    "date"
+  ).value;
+
+
+  let passengers=document.getElementById(
+    "passengers"
+  ).value;
+
+
+  if(
+    from==="" ||
+    to==="" ||
+    date===""
+  ){
+
+    alert(
+      "Please enter From, To and Date."
+    );
 
     return;
 
   }
 
-  let result=document.getElementById("ticketResult");
+
+  /* CURRENT TIME */
+
+  let now=new Date();
+
+
+  let bookingTime=
+    now.toLocaleDateString("en-IN")
+    +" | "+
+    now.toLocaleTimeString(
+      "en-IN",
+      {
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    );
+
+
+  /* VALIDITY = 2 HOURS */
+
+  let validUntil=
+    new Date(
+      now.getTime()
+      +
+      (2*60*60*1000)
+    );
+
+
+  let validityTime=
+    validUntil.toLocaleDateString("en-IN")
+    +" | "+
+    validUntil.toLocaleTimeString(
+      "en-IN",
+      {
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    );
+
+
+  /* TICKET NUMBER */
+
+  let ticketNumber=
+    "CB"+
+    Date.now()
+    .toString()
+    .slice(-8);
+
+
+  /* DEMO FARE */
+
+  let fare=
+    parseInt(passengers)*15;
+
+
+  /* BUS NUMBER */
+
+  let busNumber=
+    "CITY-101";
+
+
+  /* SHOW TICKET */
+
+  let result=
+    document.getElementById(
+      "ticketResult"
+    );
+
 
   result.style.display="block";
 
+
   result.innerHTML=
-  "<b>✅ Ticket Booked Successfully!</b><br><br>"+
-  "From: "+from+"<br>"+
-  "To: "+to+"<br>"+
-  "Date: "+date+"<br>"+
-  "Passengers: "+passengers;
+
+  `
+
+  <div class="city-ticket">
+
+
+    <div class="city-ticket-header">
+
+      CITY BUS
+
+    </div>
+
+
+    <div class="city-ticket-body">
+
+
+      <!-- TOP -->
+
+      <div class="ticket-top">
+
+
+        <div>
+
+          <div class="ticket-small-label">
+            Route
+          </div>
+
+          <div class="ticket-big-value">
+            ${busNumber}
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <div class="ticket-small-label">
+            Tickets count
+          </div>
+
+          <div class="ticket-big-value">
+            ${passengers}
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <div class="ticket-small-label">
+            Fare
+          </div>
+
+          <div class="ticket-big-value">
+            ₹${fare}
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- ROUTE -->
+
+      <div class="ticket-route">
+
+        <span>
+          ${from}
+        </span>
+
+        <span class="route-arrow">
+          ⟶
+        </span>
+
+        <span>
+          ${to}
+        </span>
+
+      </div>
+
+
+      <!-- TIME -->
+
+      <div class="ticket-info">
+
+
+        <div>
+
+          <div class="info-label">
+            Booking Time
+          </div>
+
+          <div class="info-value">
+            ${bookingTime}
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <div class="info-label">
+            Validity Time
+          </div>
+
+          <div class="info-value">
+            ${validityTime}
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- VALID -->
+
+      <div class="valid-stamp">
+
+        VALID
+
+      </div>
+
+
+      <!-- CITY BUS SEAL -->
+
+      <div class="city-seal"></div>
+
+
+      <!-- TICKET NUMBER -->
+
+      <div class="ticket-number">
+
+        Ticket No:
+        ${ticketNumber}
+
+      </div>
+
+
+      <div class="ticket-status">
+
+        🟢 Valid Ticket
+
+      </div>
+
+
+      <!-- QR -->
+
+      <div id="qrArea">
+
+
+        <div id="qrcode"></div>
+
+
+        <div class="qr-text">
+
+          Scan this QR code to verify ticket
+
+        </div>
+
+
+      </div>
+
+
+      <button
+        class="qr-button"
+        onclick="showQRCode()"
+      >
+
+        ▦ &nbsp; Show QR Code
+
+      </button>
+
+
+    </div>
+
+  </div>
+
+  `;
+
+
+  /* SAVE TICKET DATA */
+
+  localStorage.setItem(
+
+    "cityBusTicket",
+
+    JSON.stringify({
+
+      from:from,
+
+      to:to,
+
+      date:date,
+
+      passengers:passengers,
+
+      fare:fare,
+
+      ticketNumber:ticketNumber,
+
+      bookingTime:bookingTime,
+
+      validityTime:validityTime,
+
+      busNumber:busNumber
+
+    })
+
+  );
+
+
+  /* SCROLL TO TICKET */
+
+  setTimeout(function(){
+
+    result.scrollIntoView({
+      behavior:"smooth"
+    });
+
+  },200);
+
+}
+
+
+
+/* ========================= */
+/* SHOW QR */
+/* ========================= */
+
+function showQRCode(){
+
+  let qrArea=
+    document.getElementById(
+      "qrArea"
+    );
+
+
+  qrArea.style.display="block";
+
+
+  let qr=
+    document.getElementById(
+      "qrcode"
+    );
+
+
+  qr.innerHTML="";
+
+
+  let saved=
+    localStorage.getItem(
+      "cityBusTicket"
+    );
+
+
+  if(!saved){
+
+    return;
+
+  }
+
+
+  let data=
+    JSON.parse(saved);
+
+
+  let qrText=
+
+    "CITY BUS TICKET\n"+
+    "Ticket No: "+
+    data.ticketNumber+
+    "\nFrom: "+
+    data.from+
+    "\nTo: "+
+    data.to+
+    "\nDate: "+
+    data.date+
+    "\nFare: Rs."+data.fare;
+
+
+  new QRCode(
+
+    qr,
+
+    {
+
+      text:qrText,
+
+      width:190,
+
+      height:190
+
+    }
+
+  );
 
 }
 
 </script>
+
 
 </body>
 </html>
